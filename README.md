@@ -37,14 +37,23 @@ For archiving purpose
 공부한 내용 발표 & toy project
 
 Week1 : MLE, MAP, Entropy and Information Gain, Bayesian Network, GMM
+
 Week2 : HMM, Sampling Based Inference
+
 Week3 : Variational Inference1
+
 Week4 : Variational Inference2, Dirichlet Process
+
 Week5 : Gaussian Process
 
+(after mid term)
+
 Week6 : Explicit DGM1(AutoEncoder, VAE)
+
 Week7 : Explicit DGM2(CVAE, VaDE, etc)
+
 Week8 : Implicit DGM(GAN)
+
 
 
 ## Project
