@@ -12,10 +12,12 @@ For archiving purpose
 4. 생명과학을위한 데이터과학
 
 **[컴퓨터학과]**
+
 5. 볼록최적화입문
 6. 정보이론과 추론학습
 
 **[경제대학원]**
+
 7. 처리효과와 정책평가분석
 8. 패널데이터 계량경제학
 
@@ -25,11 +27,13 @@ For archiving purpose
 ## Study
 
 **[통계대학원 스터디]**
+
 3~5월 : 김우철 수리통계학, 매주 1단원씩 문제풀이공유
 6~7월 : 회귀분석 노트
 
 
 **[심화 머신러닝 & 생성모델 스터디]**
+
 공부한 내용 발표 & toy project
 
 Week1 : MLE, MAP, Entropy and Information Gain, Bayesian Network, GMM
