@@ -1,0 +1,158 @@
+# 생명과학을위한 데이터과학 HW1 
+
+date : 4/4
+
+author : 이영노
+
+## 3.1
+```{r}
+rr=(5/21)/(8/82)
+or=((5/13)/(8/13))/((21/103)/(82/103))
+v1=((1-5/26)/5)+((1-8/90)/8)
+v2=1/5+1/8+1/21+1/82
+RRCI95 = c(rr*exp(-qnorm(0.975)*sqrt(v1)),rr*exp(qnorm(0.975)*sqrt(v1)))
+ORCI95 = c(or*exp(-qnorm(0.975)*sqrt(v2)),or*exp(qnorm(0.975)*sqrt(v2)))
+
+c(rr,or)
+c(v1,v2)
+c("RR 95% Confidence Interval is,",RRCI95)
+c("OR 95% Confidence Interval is,",ORCI95)
+```
+
+## 3.3
+```{r}
+reject=c(49,12); recommend=c(24,9); surgery=c(2,29);
+df3.3 = rbind(reject, recommend, surgery)
+colnames(df3.3)=c("Yes","No")
+
+df3.3
+chisq.test(df3.3,correct=FALSE)
+```
+
+## 3.5
+```{r}
+choose(36,21)*choose(5,2)/choose(41,23)+choose(36,22)*choose(5,1)/choose(41,23)+
+  choose(36,23)*choose(5,0)/choose(41,23)
+
+surgery=c(21,2); radio=c(15,3);
+df3.5=rbind(surgery,radio)
+colnames(df3.5)=c("Cured","Not Cured")
+
+df3.5
+fisher.test(df3.5,alternative="greater",conf.int=FALSE)
+```
+
+## 3.7
+```{r}
+a=c(794,150); b=c(86,570);
+df3.7=rbind(a,b)
+df3.7
+mcnemar.test(df3.7,correct=FALSE)
+```
+
+## 3.8
+```{r}
+# number of category is 16
+strata = factor(c("심각하지 않음","심각하지 않음","심각하지 않음","심각하지 않음",
+           "약간심각","약간심각","약간심각","약간심각",
+           "심각","심각","심각","심각","매우심각","매우심각","매우심각","매우심각"))
+gender = factor(c("M","M","F","F","M","M","F","F","M","M","F","F","M","M","F","F"))
+vital = factor(c("Dead","Alive","Dead","Alive","Dead","Alive","Dead","Alive",
+          "Dead","Alive","Dead","Alive","Dead","Alive","Dead","Alive"))
+count = c(2,21,0,10,2,40,0,18,6,33,0,10,17,16,0,4)
+strata=as.factor(strata); gender=as.factor(gender); vital=as.factor(vital)
+vital=relevel(vital,"Dead"); gender=relevel(gender,"M")
+
+
+dat3.8 = data.frame(strata,gender,vital,count)
+
+# 3차원 이상의 분할표 사용시 `ftable()`
+tab3.8 = xtabs(count ~ gender+vital+strata, data=dat3.8)
+mantelhaen.test(tab3.8,correct=FALSE)
+```
+
+## 3.9
+```{r}
+diagnosis = factor(c("Positive","Negative","Positive","Negative"));
+disease = factor(c("Yes","Yes","No","No"));
+freq = c(302,179,80,372);
+diagnosis=relevel(diagnosis,"Positive"); disease=relevel(disease,"Yes")
+tab3.9 = xtabs(freq~diagnosis+disease)
+
+margin1=margin.table(tab3.9, margin=1) # margin about disease(result is row)
+margin2=margin.table(tab3.9, margin=2) # margin about diagnosis(result is columns)
+
+#민감도,특이도
+sensitivity = tab3.9[1,1]/margin2[1]
+print(sensitivity)
+specificity = tab3.9[2,2]/margin2[2]
+print(specificity)
+
+#PVP
+pvp = (302/481*0.1)/((302/481*0.1)+(1-372/452)*0.9)
+print(pvp)
+#PVN
+pvn = (372/452*0.9)/((372/452*0.9)+(1-302/481)*0.1)
+print(pvn)
+```
+## 2.2
+```{r}
+X = c(9.0,9.4,4.7,4.8,8.9,4.9,8.4,5.9,6.3,5.7,
+      5.0,3.5,7.8,10.4,8,8,8.6,7,6.8,7.1,
+      5.7,7.6,6.2,7.1,7.4,8.7,4.9,7.4,6.4,7.1,
+      6.3,8.8,8.8,5.2,7.1,5.3,4.7,8.4,6.4,8.3);
+Y = c(12.6,14.6,16.2,23.9,13.3,17.1,20.0,21.0,19.1,19.4,
+      16.7,15.9,15.8,16,17.9,13.4,19.1,16.6,18.9,18.7,
+      20,17.8,13.9,22.1,13.9,18.3,22.8,13,17.9,15.2,
+      17.7,15.1,16.9,16.4,22.8,19.4,19.6,18.4,18.2,20.7)
+dat2.2 = data.frame(X,Y)
+
+# f test for equal variance 
+var.test(X,Y,alternative="two.sided")
+# two sample t test with different variance
+t.test(X,Y,var.equal = FALSE, alternative="less")
+```
+
+## 2.4
+```{r}
+prior=c(104,116,84,77,61,84,81,72,61,97,84);
+post=c(108,118,89,71,66,83,88,76,68,96,81);
+diff=prior-post
+
+t.test(prior-post)
+```
+
+## 2.7
+```{r}
+Y=c(7.0,5.3,4.9,8.8,9.9,5.7,7.6,8.9,8.5,4.7,5.5,8.1,
+    5.1,3.5,2.8,3.3,10.3,7.7,8.4,9.1)
+exercise=factor(rep(c("A","B","C","D","E"),each=4))
+food = factor(rep(1:4,5))
+
+tab2.7=xtabs(Y~exercise+food)
+margin1_2.7=margin.table(tab2.7,margin=1) # margin about column(result is row)
+margin2_2.7=margin.table(tab2.7,margin=2) # margin about row(result is column)
+yibar=margin2_2.7/5 # i:1~4
+yjbar=margin1_2.7/4 # j:1~5
+ybar=mean(Y)
+
+model.aov3 <- aov(Y~exercise+food)
+summary(model.aov3)
+
+library(DescTools)
+ScheffeTest(model.aov3)
+```
+
+## 2.8
+```{r}
+Y = c(58,68,60,68,64,62,70,65,80,69,67,78,68,81,70)
+method = factor(rep(1:5,3))
+motivation = factor(rep(c("No","Very Low","Low"),each=5))
+
+model.aov3 = aov(Y~method+motivation)
+summary(model.aov3)
+
+library(multcompView)
+TukeyHSD(model.aov3)
+```
+
